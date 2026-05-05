@@ -29,8 +29,7 @@ def search_user():
         messagebox.showwarning("Ошибка ввода", "Поле поиска не должно быть пустым")
         return
 
-    url = f"https://api.github.com/users/{username}"
-    response = requests.get(url)
+    response = fetch_user(username)
 
     listbox.delete(0, tk.END)
 
@@ -40,6 +39,9 @@ def search_user():
     else:
         listbox.insert(tk.END, "Пользователь не найден")
 
+def fetch_user(username):
+    url = f"https://api.github.com/users/{username}"
+    return requests.get(url)
 
 # Добавление в избранное
 def add_to_favorites():
