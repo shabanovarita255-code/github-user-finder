@@ -9,10 +9,11 @@ FAVORITES_FILE = "favorites.json"
 
 # Загрузка избранного
 def load_favorites():
-    if not os.path.exists(FAVORITES_FILE):
+    try:
+        with open(FAVORITES_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except (json.JSONDecodeError, FileNotFoundError):
         return []
-    with open(FAVORITES_FILE, "r") as f:
-        return json.load(f)
 
 
 # Сохранение избранного
