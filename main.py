@@ -27,7 +27,7 @@ def search_user():
     username = entry.get().strip()
 
     if not username:
-        messagebox.showwarning("Ошибка", "Введите имя пользователя")
+        messagebox.showwarning("Ошибка ввода", "Поле поиска не должно быть пустым")
         return
 
     url = f"https://api.github.com/users/{username}"
