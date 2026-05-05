@@ -70,7 +70,7 @@ def remove_favorite():
     favorites = load_favorites()
 
     if item in favorites:
-        favorites.remove(selection)
+        favorites.remove(item)
         save_favorites(favorites)
         show_favorites()
         messagebox.showinfo("OK", "Удалено из избранного")
