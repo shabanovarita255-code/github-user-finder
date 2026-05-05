@@ -2,7 +2,6 @@ import tkinter as tk
 from tkinter import messagebox
 import requests
 import json
-import os
 
 FAVORITES_FILE = "favorites.json"
 
@@ -59,6 +58,24 @@ def add_to_favorites():
     else:
         messagebox.showinfo("OK", "Уже в избранном")
 
+# Удалить из избранного
+def remove_favorite():
+    selection = listbox.curselection()
+
+    if not selection:
+        messagebox.showwarning("Ошибка", "Выберите пользователя")
+        return
+
+    item = listbox.get(selection[0])
+    favorites = load_favorites()
+
+    if item in favorites:
+        favorites.remove(selection)
+        save_favorites(favorites)
+        show_favorites()
+        messagebox.showinfo("OK", "Удалено из избранного")
+    else:
+        messagebox.showinfo("OK", "Нет в избранном")
 
 # Показ избранного
 def show_favorites():
@@ -68,6 +85,19 @@ def show_favorites():
 
     for user in favorites:
         listbox.insert(tk.END, user)
+
+
+# Очистить избранное
+def clear_favorites():
+    confirm = messagebox.askyesno(
+        "Подтверждение",
+        "Вы уверены, что хотите очистить избранное?"
+    )
+
+    if confirm:
+        save_favorites([])
+        listbox.delete(0, tk.END)
+        messagebox.showinfo("OK", "Избранное очищено")
 
 
 # GUI
@@ -87,7 +117,13 @@ listbox.pack(pady=10)
 fav_btn = tk.Button(root, text="Добавить в избранное", command=add_to_favorites)
 fav_btn.pack()
 
+remove_btn = tk.Button(root, text="Удалить из избранного", command=remove_favorite)
+remove_btn.pack()
+
 show_btn = tk.Button(root, text="Показать избранное", command=show_favorites)
 show_btn.pack()
+
+clear_btn = tk.Button(root, text="Очистить избранное", command=clear_favorites)
+clear_btn.pack()
 
 root.mainloop()
